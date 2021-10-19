@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <!--lazyLoadingEnabled 延迟加载启动，懒加载（默认为false）-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--aggressiveLazyLoading：积极的懒加载  默认是true -->
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <!-- 开启二级缓存总开关 -->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+    <!--别名必需加在属性后面-->
+    <typeAliases>
+
+        <!--单个别名-->
+        <!--<typeAlias type="com.javacto.po.User" alias="sbq"></typeAlias>-->
+        <!--批量配置别名 com.javacto.po 每个类系统给我们配置两个别名  开发使用这种
+            如：com.javacto.po.User
+               这两个 user    User
+         -->
+        <package name="com.app.entity"/>
+    </typeAliases>
+
+</configuration>

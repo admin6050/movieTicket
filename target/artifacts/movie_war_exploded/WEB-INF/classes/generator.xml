@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE generatorConfiguration  
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"  
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+ 
+<generatorConfiguration>
+	<!-- classPathEntry:数据库的JDBC驱动的jar包地址 -->
+	<classPathEntry location="D:/java1/tool/maven/repository/mysql/mysql-connector-java/8.0.26/mysql-connector-java-8.0.26.jar" />
+	<context id="DB2Tables" targetRuntime="MyBatis3">
+		<commentGenerator>
+		<!-- 抑制警告 -->
+		<property name="suppressTypeWarnings" value="true" />
+		<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+		<property name="suppressAllComments" value="false" />
+		<!-- 是否生成注释代时间戳-->  
+		<property name="suppressDate" value="true" /> 
+		</commentGenerator>
+ 
+		<!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/db_movie?useUnicode=true&amp;characterEncoding=utf8"
+			userId="root"
+			password="123456">
+		</jdbcConnection>
+		<!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer true，把JDBC DECIMAL 和 
+			NUMERIC 类型解析为java.math.BigDecimal -->
+	<!-- 	<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver> -->
+        <!--生成entity类存放位置 -->
+		<javaModelGenerator targetPackage="com.app.entity"
+			targetProject="D:/java1/pro/idea/movie/src/main/java">
+			 <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->  
+			<property name="enableSubPackages" value="false" />
+			 <!-- 是否针对string类型的字段在set的时候进行trim调用 -->  
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+        <!--生成映射xml文件存放位置 -->
+		<sqlMapGenerator targetPackage="mapper"
+			targetProject="D:/java1/pro/idea/movie/src/main/resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+        <!--生成Dao类存放位置 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.app.mapper" targetProject="D:/java1/pro/idea/movie/src/main/java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		
+ 
+       	<!-- tableName:用于自动生成代码的数据库表；domainObjectName:对应于数据库表的javaBean类名 -->  
+        <table schema="general" tableName="orders" domainObjectName="Orders">
+         <!--domain字段的命名规则，false:默认为驼峰命名 true:按数据库真实命名  -->
+        <property name="useActualColumnNames" value="false"/>
+        <!-- 忽略列，不生成bean 字段 -->  
+        <!--     <ignoreColumn column="FRED" />   -->
+        <!-- 指定列的java数据类型 -->  
+        <!--     <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />   -->
+        </table>
+	</context>
+</generatorConfiguration>

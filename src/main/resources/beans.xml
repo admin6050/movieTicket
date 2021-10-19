@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- 3.1扫描装配bean-->
+    <context:component-scan base-package="com.app"></context:component-scan>
+    <context:property-placeholder location="classpath:db.properties"></context:property-placeholder>
+    <!-- 3.2注入数据源  注入数据源的时候需要db.properties-->
+    <bean id="dataSourceIdDruid" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClass}" />
+        <property name="url" value="${jdbc.jdbcUrl}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+    </bean>
+    <!-- 3.3创建SqlSessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 这里必需注入数据源-->
+        <property name="dataSource" ref="dataSourceIdDruid"></property>
+        <!--必需加载SqlMapConfig.xml 必需是value-->
+        <property name="configLocation" value="classpath:SqlMapConfig.xml"></property>
+
+    </bean>
+    <!-- 3.4创建MyBatis扫描器-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--批量配置映射文件-->
+        <property name="basePackage" value="com.app.mapper"></property>
+        <!--必加配置3创建SqlSessionFactory-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+    </bean>
+    <!--  3.5配置事务-->
+    <bean id="txManagerId" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSourceIdDruid"></property>
+    </bean>
+    <!--3.6事务注解生效-->
+    <tx:annotation-driven transaction-manager="txManagerId"></tx:annotation-driven>
+
+</beans>

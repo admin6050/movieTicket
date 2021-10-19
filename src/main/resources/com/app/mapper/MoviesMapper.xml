@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.mapper.MoviesMapper" >
+    <select id="queryAllCount" resultType="int" parameterType="String">
+        select count(*) from movies
+        <where>
+            <if test="movieName!=null and  movieName!=''">
+                movieName like concat('%',#{movieName},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="queryMoviesByDesc" resultType="com.app.entity.Movies">
+        select * from movies
+        <where>
+            <if test="movieName!=null and  movieName!=''">
+                movieName like concat('%',#{movieName},'%')
+            </if>
+            and iszsqd is null
+        </where>
+        order by id desc limit #{start},#{end}
+    </select>
+
+    <select id="queryMoviesByLike" resultType="com.app.entity.Movies">
+        select * from movies
+        <where>
+            <if test="movieName!=null and  movieName!=''">
+                movieName like concat('%',#{movieName},'%')
+            </if>
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="queryMovies10" resultType="com.app.entity.Movies">
+        select * from movies
+        <where>
+            <if test="movieName!=null and  movieName!=''">
+                movieName like concat('%',#{movieName},'%')
+            </if>
+        </where>
+        order by id desc limit 0,10
+    </select>
+
+    <select id="queryListByType" resultType="com.app.entity.Movies" parameterType="String">
+        select * from movies
+        <where>
+            <if test="type!=null and  type!='' and type=='zsqd'">
+                iszsqd='1'
+            </if>
+            <if test="type!=null and  type!='' and type=='hprc'">
+                ishprc='1'
+            </if>
+            <if test="type!=null and  type!='' and type=='jrpf'">
+                isjrpf='1'
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+
+    <select id="queryById" resultType="Movies" parameterType="Integer">
+        select * from movies where id=#{id}
+    </select>
+
+    <insert id="insertMovie" parameterType="movies">
+        insert into movies
+        <set>
+            <if test="movieName!=null and  movieName!=''">
+                movieName=#{movieName},
+            </if>
+            <if test="director!=null and  director!=''">
+                director=#{director},
+            </if>
+            <if test="time!=null and  time!=''">
+                time=#{time},
+            </if>
+            <if test="language!=null and  language!=''">
+                language=#{language},
+            </if>
+            <if test="publishDate!=null and  publishDate!=''">
+                publishDate=#{publishDate},
+            </if>
+            <if test="boxOffice!=0.0">
+                boxOffice=#{boxOffice},
+            </if>
+            <if test="ticketPrice!=0.0">
+                ticketPrice=#{ticketPrice},
+            </if>
+            <if test="session!=null and  session!=''">
+                session=#{session},
+            </if>
+            <if test="videoHall!=null and  videoHall!=''">
+                videoHall=#{videoHall},
+            </if>
+            <if test="imgpath!=null and  imgpath!=''">
+                imgpath=#{imgpath},
+            </if>
+            <if test="description!=null and  description!=''">
+                description=#{description},
+            </if>
+            <if test="hot!=0">
+                hot=#{hot},
+            </if>
+            <if test="iszsqd!=null and  iszsqd!=''">
+                iszsqd=#{iszsqd},
+            </if>
+            <if test="ishprc!=null and  ishprc!=''">
+                ishprc=#{ishprc},
+            </if>
+            <if test="isjrpf!=null and  isjrpf!=''">
+                isjrpf=#{isjrpf},
+            </if>
+            updatedate=now()
+        </set>
+    </insert>
+
+    <update id="updateMovie" parameterType="movies">
+        update movies
+        <set>
+            <if test="movieName!=null and  movieName!=''">
+                movieName=#{movieName},
+            </if>
+            <if test="director!=null and  director!=''">
+                director=#{director},
+            </if>
+            <if test="time!=null and  time!=''">
+                time=#{time},
+            </if>
+            <if test="language!=null and  language!=''">
+                language=#{language},
+            </if>
+            <if test="publishDate!=null and  publishDate!=''">
+                publishDate=#{publishDate},
+            </if>
+            <if test="boxOffice!=0.0">
+                boxOffice=#{boxOffice},
+            </if>
+            <if test="ticketPrice!=0.0">
+                ticketPrice=#{ticketPrice},
+            </if>
+            <if test="session!=null and  session!=''">
+                session=#{session},
+            </if>
+            <if test="videoHall!=null and  videoHall!=''">
+                videoHall=#{videoHall},
+            </if>
+            <if test="imgpath!=null and  imgpath!=''">
+                imgpath=#{imgpath},
+            </if>
+            <if test="description!=null and  description!=''">
+                description=#{description},
+            </if>
+            <if test="hot!=0">
+                hot=#{hot},
+            </if>
+            <if test="iszsqd!=null and  iszsqd!=''">
+                iszsqd=#{iszsqd},
+            </if>
+            <if test="ishprc!=null and  ishprc!=''">
+                ishprc=#{ishprc},
+            </if>
+            <if test="isjrpf!=null and  isjrpf!=''">
+                isjrpf=#{isjrpf},
+            </if>
+            <if test="updatedate!=null">
+                updatedate=#{updatedate}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <delete id="deleteById" parameterType="Integer">
+        delete from movies where id=#{id}
+    </delete>
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        ">
+
+    <!--扫描装配bean-->
+    <context:component-scan base-package="com.app.controller"></context:component-scan>
+
+    <!-- 视图解析器  解析出真正的物理视图-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--逻辑视图前缀-->
+        <property name="prefix" value=""></property>
+        <!--逻辑视图后缀   匹配模式 前缀 + 逻辑视图 + 后缀 = 真正的物理视图    -->
+        <property name="suffix" value=""></property>
+        <!--/jsp/index.jsp-->
+    </bean>
+
+
+    <!---->
+    <mvc:annotation-driven></mvc:annotation-driven>
+
+    <!--哪些资源不拦截-->
+   <!-- <mvc:resources mapping="/bb/"** location="/bb/"></mvc:resources>
+    <mvc:resources mapping="/js/**" location="/js/"></mvc:resources>
+
+-->
+    <!-- 支持上传文件 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--限制文件大小 字节 10M  10*1024*1024  -->
+        <property name="maxUploadSize" value="10485760" />
+    </bean>
+
+
+
+</beans>
+

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.mapper.OrdersMapper">
+    <insert id="insertOrders" parameterType="orders">
+        insert into orders(movieid,moviename,seat,status,createdate)
+        values(#{movieid},#{moviename},#{seat},#{status},#{createdate})
+    </insert>
+
+
+    <select id="queryByCreateDate" resultType="Orders">
+        select * from orders order by createdate desc limit #{begin},#{end}
+    </select>
+
+    <select id="queryTotal" resultType="int">
+        select count(*) from orders
+    </select>
+</mapper>

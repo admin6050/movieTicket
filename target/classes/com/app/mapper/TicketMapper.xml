@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.app.mapper.TicketMapper">
+
+    <select id="queryTicketByMovieId" parameterType="int" resultType="Ticket">
+        select * from ticket where movieid=#{id}
+    </select>
+
+    <insert id="insertTicket" parameterType="Ticket">
+        insert into ticket(movieid,moviename,seat,occupy,status) values(#{movieid},#{moviename},#{seat},#{occupy},#{status})
+    </insert>
+
+    <select id="queryById" parameterType="int" resultType="Ticket">
+        select * from ticket where id=#{id}
+    </select>
+    <update id="updateTicket" parameterType="ticket">
+        update ticket
+        <set>
+            <if test="occupy !=null and occupy !=''">
+                occupy=#{occupy},
+            </if>
+            <if test="status !=null and status !=''">
+                status=#{status},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+</mapper>

@@ -1,0 +1,96 @@
+<div class="layui-fluid">
+	<div class="layui-row">
+		<div class="layui-col-xs12">
+			<div class="layui-card">
+				<div class="layui-card-header">订单管理</div>
+				<div class="layui-card-body ordersList">					
+					<table class="layui-table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>电影名称</th>
+								<th>座位号</th>
+								<th>出票时间</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="item in dataSource">
+								<td>{{item.id}}</td>
+								<td>{{item.moviename}}</td>
+								<td>{{item.seat}}</td>
+								<td>{{item.createdate}}</td>
+							</tr>
+						</tbody>		
+					</table>
+					<div id="laypageDemo"></div>
+				</div>
+			</div>
+		</div>		
+	</div>
+</div>
+<script>
+var $ = layui.jquery;
+var vm = new Vue({
+	el: '.ordersList',		//生效范围
+	data:{
+		dataSource: []
+	},
+	methods: {
+		//查询所有订单
+		loadData: function(page,rows){
+			page = page?page:1;
+			rows = rows?rows:5;
+			this.$http({
+				url: 'movies/listOrders.do',
+				data:{
+					page:page,
+					rows:rows
+				}
+			}).then(function(res){
+				var data = res.data;
+				vm.dataSource = data.rows;
+				layui.use('laypage',function(){
+					var laypage = layui.laypage;
+					laypage.render({
+						elem: 'laypageDemo',
+						count: data.total,
+						limit: rows,
+						curr: page,
+						jump: function(obj,first){
+							//首次不执行
+							if(!first){
+								vm.loadData(obj.curr,obj.limit);
+							}
+						}
+					})
+				});
+			});
+		}		
+	}
+});
+vm.loadData();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
